@@ -91,6 +91,22 @@ router.post('/signin', function(req, res) {
         };
 });
 
+// router.route('/movies')
+//     .get()
+//
+//     .post(authJwtController.isAuthenticated,
+//         function (req, res) {
+//             res.json(
+//                 getJSONObject( req, "POST movies" )
+//             );
+//         })
+//
+//     .put()
+//
+//     .delete()
+//
+//     .all();
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 
