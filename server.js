@@ -89,23 +89,32 @@ router.post('/signin', function(req, res) {
                 res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
             }
         };
-});
 
-// router.route('/movies')
-//     .get()
-//
-//     .post(authJwtController.isAuthenticated,
-//         function (req, res) {
-//             res.json(
-//                 getJSONObject( req, "POST movies" )
-//             );
-//         })
-//
-//     .put()
-//
-//     .delete()
-//
-//     .all();
+})
+    .all(function(req, res){
+        res.status(500).send({msg :'Invalid'})
+    });
+
+router.route('/movies')
+    .get(function(req, res){
+        res.send({status: 200, msg: 'movie saved', headers: req.headers, query: req.query, key: process.env.SECRET_KEY})
+    })
+
+    .post(function(req, res){
+        res.status(200).send({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env : process.env.UNIQUE_KEY})
+    })
+
+    .put(authJwtController.isAuthenticated, function(req, res){
+        res.status(200).send({status: 200, msg: 'movie uodated', headers: req.headers, query: req.query, env : process.env.UNIQUE_KEY})
+    })
+
+    .delete(authController.isAuthenticated, function(req, res){
+        res.status(200).send({status: 200, msg: 'movie deleted', headers: req.headers, query: req.query, env : process.env.UNIQUE_KEY})
+    })
+
+    .all(function(req, res){
+        res.status(500).send({msg :'Invalid'})
+      });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
